@@ -37,7 +37,7 @@
   {
     "field_name": "Metrics",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "#1: Peak GPU temperature (peak_gpu_junction_temp_c); #2: Sustained GPU power (sustained_gpu_power_w); #3: GPU ECC error count (gpu_system_ecc_error_count); #4: Thermal throttle events (thermal_throttle_event_count)"
+    "value": "#1: Peak GPU temperature (peak_gpu_temperature_c); #2: Sustained GPU power (sustained_gpu_power_w); #3: GPU ECC error count (gpu_system_ecc_error_count); #4: Thermal throttle events (thermal_throttle_event_count)"
   },
   {
     "field_name": "Command Tools Executed",
@@ -97,7 +97,7 @@
   {
     "field_name": "Raw Output Example",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_junction_temp_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message\n0,ok,0,30,55,120,0,55,120,0,0,"
+    "value": "sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_temperature_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message\n0,ok,0,30,55,120,0,55,120,0,0,"
   },
   {
     "field_name": "run_benchmark Command Plus Options for Smoke Run",
@@ -117,7 +117,7 @@
   {
     "field_name": "Output Fields / Metrics to Parse",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "gpu_util_pct, gpu_temp_c, gpu_power_w, ecc_uncorrected, peak_gpu_junction_temp_c, sustained_gpu_power_w, thermal_throttle_event_count, gpu_system_ecc_error_count"
+    "value": "gpu_util_pct, gpu_temp_c, gpu_power_w, ecc_uncorrected, peak_gpu_temperature_c, sustained_gpu_power_w, thermal_throttle_event_count, gpu_system_ecc_error_count"
   },
   {
     "field_name": "Success Criteria",
@@ -127,7 +127,7 @@
   {
     "field_name": "Parser and Normalization Notes",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "parser stores the normalized CSV metrics"
+    "value": "parser stores the normalized CSV metrics. peak_gpu_temperature_c is the maximum of nvidia-smi temperature.gpu (the GPU core sensor, not junction)"
   },
   {
     "field_name": "Hardware Config",
@@ -157,7 +157,7 @@
   {
     "field_name": "Container Base Image",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "N/A - host-native Ubuntu 26.04"
+    "value": "Provider-supplied Ubuntu 26.04 container; CUDA 13.3 toolkit installed by setup"
   },
   {
     "field_name": "Python Version",
@@ -167,7 +167,7 @@
   {
     "field_name": "GPU Runtime Version (was ROCm Version)",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "CUDA 13.3"
+    "value": "CUDA 13.3 (nvcc 13.3.73). Driver 580.159.04 reports CUDA 13.0"
   },
   {
     "field_name": "BLAS Version (was rocBLAS version)",
@@ -217,7 +217,7 @@
   {
     "field_name": "g++ Version",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "N/A - CMake not used"
+    "value": "N/A - g++ not used"
   },
   {
     "field_name": "Known Runtime Constraints (<=35 Words Each)",
@@ -362,7 +362,7 @@
   {
     "field_name": "Schema Last Updated",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "2026-09-05"
+    "value": "2026-10-17"
   },
   {
     "field_name": "Installation and Execution Summary",
@@ -377,7 +377,7 @@
   {
     "field_name": "ROCm Version",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "CUDA 13.3"
+    "value": "CUDA 13.3 (nvcc 13.3.73). Driver 580.159.04 reports CUDA 13.0"
   },
   {
     "field_name": "rocBLAS Version",

@@ -32,14 +32,14 @@ This repository is one of the 32 workloads in the NVIDIA Ubuntu 26.04 bundle, [`
 apt-get update && apt-get install -y git
 git clone --recurse-submodules https://github.com/garys-gpu-benchmarks/bundle-nvidia-ubuntu-2604 /opt/benchmarks \
   && cd /opt/benchmarks \
-  && ./run.sh list \
+  && ./run_benchmark_suite.sh --list \
   && cd /opt/benchmarks/403-sys-bench-nvidia-system-stress-stability-ubu2604 \
   && bash run_benchmark.sh --profile smoke --validate \
   && cd /opt/benchmarks \
   && echo "Done: 32 workloads in /opt/benchmarks; 403-sys-bench-nvidia-system-stress-stability-ubu2604 smoke run passed. Next: ./run_benchmark_suite.sh --help"
 ```
 
-Every line in `./run.sh list` should show `ready`. The commands are joined with `&&`, so if the clone or the smoke run fails, the chain stops there, and the closing message appears only when everything succeeded. The chain ends in `/opt/benchmarks`, where the suite runner is. For more extensive testing:
+Every line in `./run_benchmark_suite.sh --list` should show `ready`; it exits with an error if any workload is not fetched. The commands are joined with `&&`, so if the clone, the list or the smoke run fails, the chain stops there, and the closing message appears only when everything succeeded. The chain ends in `/opt/benchmarks`, where the suite runner is. For more extensive testing:
 
 ```bash
 ./run_benchmark_suite.sh -p smoke                 # smoke test of all 32 workloads
@@ -73,8 +73,8 @@ Three operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://git
 - **`get_remote_info.sh`** (on your laptop; Git Bash on Windows) — over one SSH connection, copies the runtime ledger and every workload's `results/raw`, `results/parsed` and suite logs into `RUNTIME_LEDGERS/` and `DIRECTORIES/`.
   ```bash
   git clone https://github.com/garys-gpu-benchmarks/gpu-bench-suite && cd gpu-bench-suite
-  ./scripts/get_remote_info.sh 203.0.113.10                     # root@host, port 22
-  ./scripts/get_remote_info.sh -i ~/.ssh/id_ed25519 -o ~/results ubuntu@203.0.113.10 2222
+  ./scripts/get_remote_info.sh --host 203.0.113.10              # root@host, port 22
+  ./scripts/get_remote_info.sh --host ubuntu@203.0.113.10 --port 2222 -i ~/.ssh/id_ed25519 -o ~/results
   ```
 - **`show_metrics.sh`** (laptop or GPU host) — prints one workload's runs from the runtime ledger in fixed-width metric columns with per-profile means. On the GPU host it is `/opt/benchmarks/show_metrics.sh`.
   ```bash
@@ -90,14 +90,14 @@ Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together 
 ## 2. What It Validates
 
 - Validates that stress-ng and the cuBLAS GEMM load (bin/gpu_stress) both run for the yaml duration and that peak GPU temperature, sustained (mean) GPU power, and uncorrectable GPU ECC errors are parsed from nvidia-smi samples taken every poll_interval seconds. The run fails if bin/gpu_stress does not start or report GEMMs, or if mean utilization.gpu is below half of gpu_load_percent (minimum 10%). Peak temperature above temp_threshold, mean power above power_threshold, or a hardware thermal slowdown event with throttle_check true marks every sample error
-- #1: Peak GPU temperature (peak_gpu_junction_temp_c); is present and physically sensible.
+- #1: Peak GPU temperature (peak_gpu_temperature_c); is present and physically sensible.
 - #2: Sustained GPU power (sustained_gpu_power_w); is present and physically sensible.
 - #3: GPU ECC error count (gpu_system_ecc_error_count); is present and physically sensible.
 - #4: Thermal throttle events (thermal_throttle_event_count) is present and physically sensible.
 
 ## 3. Metrics Captured
 
-- **#1: Peak GPU temperature** — stored as `peak_gpu_junction_temp_c`.
+- **#1: Peak GPU temperature** — stored as `peak_gpu_temperature_c`.
 - **#2: Sustained GPU power** — stored as `sustained_gpu_power_w`.
 - **#3: GPU ECC error count** — stored as `gpu_system_ecc_error_count`.
 - **#4: Thermal throttle events** — stored as `thermal_throttle_event_count`.
@@ -130,7 +130,7 @@ Ubuntu 26.04 / NVIDIA / Bash, SQLite, Python, PyYAML, CUDA Runtime, stress-ng, n
 | OS | Ubuntu 26.04 |
 | Kernel | kernel 7.0.0 |
 | Python | Python 3.14.4 |
-| ROCm | CUDA 13.3 |
+| ROCm | CUDA 13.3 (nvcc 13.3.73). Driver 580.159.04 reports CUDA 13.0 |
 | rocBLAS | cuBLAS (bundled with CUDA 13.3) |
 
 Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together while polling nvidia-smi every poll_interval seconds. num_threads: stress-ng --cpu workers (default 16). cpu_load_percent: stress-ng --cpu-load.
@@ -162,7 +162,7 @@ source ".venv/bin/activate"
 
 CSV with one time-series row per elapsed second
 
-sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_junction_temp_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message
+sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_temperature_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message
 0,ok,0,30,55,120,0,55,120,0,0,
 
 ```bash
@@ -177,7 +177,7 @@ Consolidated metrics from the most recent run — suitable for CI artifact uploa
 
 CSV with one time-series row per elapsed second
 
-sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_junction_temp_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message
+sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_temperature_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message
 0,ok,0,30,55,120,0,55,120,0,0,
 
 ## 9. Baselines / Thresholds

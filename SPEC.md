@@ -29,12 +29,12 @@ Run stress-ng --cpu --cpu-load, bin/gpu_stress (cuBLAS GEMM), and nvidia-smi --q
 
 CSV with one time-series row per elapsed second
 
-sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_junction_temp_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message
+sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_temperature_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message
 0,ok,0,30,55,120,0,55,120,0,0,
 
 ## Metrics
 
-- **#1: Peak GPU temperature** — stored as `peak_gpu_junction_temp_c`.
+- **#1: Peak GPU temperature** — stored as `peak_gpu_temperature_c`.
 - **#2: Sustained GPU power** — stored as `sustained_gpu_power_w`.
 - **#3: GPU ECC error count** — stored as `gpu_system_ecc_error_count`.
 - **#4: Thermal throttle events** — stored as `thermal_throttle_event_count`.
@@ -84,7 +84,7 @@ BENCHMARK_DB=tests/fixtures/benchmark.db \
 
 CSV with one time-series row per elapsed second
 
-sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_junction_temp_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message
+sample_index,status,second,gpu_util_pct,gpu_temp_c,gpu_power_w,ecc_uncorrected,peak_gpu_temperature_c,sustained_gpu_power_w,thermal_throttle_event_count,gpu_system_ecc_error_count,error_message
 0,ok,0,30,55,120,0,55,120,0,0,
 
 ```bash
