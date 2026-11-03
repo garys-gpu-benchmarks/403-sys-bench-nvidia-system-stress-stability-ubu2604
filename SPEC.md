@@ -2,7 +2,7 @@
 
 ## Execution Description
 
-Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together while polling nvidia-smi every poll_interval seconds. num_threads: stress-ng --cpu workers (default 16). cpu_load_percent: stress-ng --cpu-load. gpu_load_percent: share of each 100 ms window the GPU runs FP16 GEMMs (default 50). Sweep dimensions: num_threads, cpu_load_percent, gpu_load_percent, temp_threshold, power_threshold, throttle_check, ecc_check, poll_interval.
+Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together while polling nvidia-smi every poll_interval seconds. num_threads: stress-ng --cpu workers (default 16). cpu_load_percent: stress-ng --cpu-load. gpu_load_percent: share of each 100 ms window the GPU runs FP16 GEMMs (default 50). Sweep dimensions: num_threads, cpu_load_percent, gpu_load_percent, temp_threshold, power_threshold, duration, throttle_check, ecc_check.
 
 ## Parameters
 
@@ -13,11 +13,10 @@ Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together 
 | gpu_load_percent | `--gpu-load-percent` | smoke=50, baseline=50, extended=50 | 50 | From Parameter list; see Execution Description With Parameters. |
 | temp_threshold | `--temp-threshold` | smoke=75, baseline=75, extended=75 | 75 | From Parameter list; see Execution Description With Parameters. |
 | power_threshold | `--power-threshold` | smoke=700, baseline=700, extended=700 | 700 | From Parameter list; see Execution Description With Parameters. |
+| duration | `--duration` | smoke=5, baseline=200, extended=580 | 200 | From Parameter list; see Execution Description With Parameters. |
 | throttle_check | `--throttle-check` | smoke=true, baseline=true, extended=true | true | From Parameter list; see Execution Description With Parameters. |
 | ecc_check | `--ecc-check` | smoke=true, baseline=true, extended=true | true | From Parameter list; see Execution Description With Parameters. |
 | poll_interval | `--poll-interval` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |
-| duration | `--duration` | smoke=5, baseline=200, extended=580 | 200 | From Parameter list; see Execution Description With Parameters. |
-| output_format | `--output-format` | smoke=csv, baseline=csv, extended=csv | csv | From Parameter list; see Execution Description With Parameters. |
 
 ## Invocation
 
