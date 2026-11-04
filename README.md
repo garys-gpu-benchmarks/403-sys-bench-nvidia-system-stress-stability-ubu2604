@@ -60,7 +60,7 @@ To move to the newest published release later: `cd /opt/benchmarks && git pull &
 
 ## Suite Tools
 
-Three operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://github.com/garys-gpu-benchmarks/gpu-bench-suite) work across the whole bundle. `run_benchmark_suite.sh` and `show_metrics.sh` are also at the top of every bundle (and the generator's remote copy installs `show_metrics.sh` at `/opt/benchmarks`); each script prints full usage with `--help`.
+Four operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://github.com/garys-gpu-benchmarks/gpu-bench-suite) work across the whole bundle. All four are also at the top of every bundle, and `show_metrics.sh` is at the top of this repository too; each script prints full usage with `--help`.
 
 - **`run_benchmark_suite.sh`** (on the GPU host) — runs the installed workloads one after another for each profile, writes one log to `/opt/benchmarks/benchmark_suite_log/`, and ends with a pass/fail summary.
   ```bash
@@ -70,26 +70,33 @@ Three operator scripts from [`garys-gpu-benchmarks/gpu-bench-suite`](https://git
   ./run_benchmark_suite.sh --smoke                      # every workload, smoke profile
   ./run_benchmark_suite.sh -r 20                        # soak: everything, 20 times
   ```
-- **`get_remote_info.sh`** (on your laptop; Git Bash on Windows) — over one SSH connection, copies the runtime ledger and every workload's `results/raw`, `results/parsed` and suite logs into `RUNTIME_LEDGERS/` and `DIRECTORIES/`.
+- **`get_benchmark_results.sh`** (on your laptop with `--host`, or on the GPU host without it) — copies the runtime ledger and every workload's `results/raw`, `results/parsed` and suite logs into `RUNTIME_LEDGERS/` and `DIRECTORIES/`. With `--host` it collects over one SSH connection; without `--host` it collects from the machine it runs on.
   ```bash
   git clone https://github.com/garys-gpu-benchmarks/gpu-bench-suite && cd gpu-bench-suite
-  ./scripts/get_remote_info.sh --host 203.0.113.10              # root@host, port 22
-  ./scripts/get_remote_info.sh --host ubuntu@203.0.113.10 --port 2222 -i ~/.ssh/id_ed25519 -o ~/results
+  ./scripts/get_benchmark_results.sh --host 203.0.113.10        # root@host, port 22
+  ./scripts/get_benchmark_results.sh --host ubuntu@203.0.113.10 --port 2222 -i ~/.ssh/id_ed25519 -o ~/results
+  /opt/benchmarks/get_benchmark_results.sh -o ~/results     # on the GPU host: this machine
   ```
-- **`show_metrics.sh`** (laptop or GPU host) — prints one workload's runs from the runtime ledger in fixed-width metric columns with per-profile means. On the GPU host it is `/opt/benchmarks/show_metrics.sh`.
+- **`show_ledger_runs.sh`** (on your laptop with `--host`, or on the GPU host without it) — prints one line per run in the runtime ledger (workload, profile, runtime, exit code) and copies nothing. `--failed` lists only runs that did not exit 0.
   ```bash
-  cd /opt/benchmarks && ./show_metrics.sh 403             # on the GPU host
+  ./scripts/show_ledger_runs.sh --host 203.0.113.10           # from your laptop
+  /opt/benchmarks/show_ledger_runs.sh --failed            # on the GPU host
+  ```
+- **`show_metrics.sh`** (laptop or GPU host; included in this repository) — prints one workload's runs from the runtime ledger in fixed-width metric columns with per-profile means.
+  ```bash
+  ./show_metrics.sh 403                                        # from this repository, on the GPU host
+  cd /opt/benchmarks && ./show_metrics.sh 403             # or from the bundle
   ./scripts/show_metrics.sh 403 --host 203.0.113.10            # over SSH, all profiles
   ./scripts/show_metrics.sh 403 --baseline --file RUNTIME_LEDGERS/<ledger>.csv
   ```
 
 ## 1. Overview
 
-Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together while polling nvidia-smi every poll_interval seconds. num_threads: stress-ng --cpu workers (default 16). cpu_load_percent: stress-ng --cpu-load. gpu_load_percent: share of each 100 ms window the GPU runs FP16 GEMMs (default 50). Sweep dimensions: num_threads, cpu_load_percent, gpu_load_percent, temp_threshold, power_threshold, duration, throttle_check, ecc_check.
+Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together while polling nvidia-smi every poll_interval seconds. num_threads: stress-ng --cpu workers (default 16). cpu_load_percent: stress-ng --cpu-load. gpu_load_percent: share of each 100 ms window the GPU runs FP16 GEMMs (default 50). Sweep dimensions: num_threads, cpu_load_percent, gpu_load_percent, temp_threshold, power_threshold, duration, poll_interval.
 
 ## 2. What It Validates
 
-- Validates that stress-ng and the cuBLAS GEMM load (bin/gpu_stress) both run for the yaml duration and that peak GPU temperature, sustained (mean) GPU power, and uncorrectable GPU ECC errors are parsed from nvidia-smi samples taken every poll_interval seconds. The run fails if bin/gpu_stress does not start or report GEMMs, or if mean utilization.gpu is below half of gpu_load_percent (minimum 10%). Peak temperature above temp_threshold, mean power above power_threshold, or a hardware thermal slowdown event with throttle_check true marks every sample error
+- Validates that stress-ng and the cuBLAS GEMM load (bin/gpu_stress) both run for the yaml duration and that peak GPU temperature, sustained (mean) GPU power, and uncorrectable GPU ECC errors are parsed from nvidia-smi samples taken every poll_interval seconds. The run fails if bin/gpu_stress does not start or report GEMMs, or if mean utilization.gpu is below half of gpu_load_percent (minimum 10%). Peak temperature above temp_threshold, mean power above power_threshold, or a hardware thermal slowdown event marks every sample error
 - #1: Peak GPU temperature (peak_gpu_temperature_c); is present and physically sensible.
 - #2: Sustained GPU power (sustained_gpu_power_w); is present and physically sensible.
 - #3: GPU ECC error count (gpu_system_ecc_error_count); is present and physically sensible.

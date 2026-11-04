@@ -21,7 +21,7 @@ Run bin/gpu_stress for yaml duration at gpu_load_percent (FP16 cuBLAS GEMM, busy
 Analyze GPU thermal and power behavior under combined CPU and GPU load
 
 ## Validation Objective
-Validates that stress-ng and the cuBLAS GEMM load (bin/gpu_stress) both run for the yaml duration and that peak GPU temperature, sustained (mean) GPU power, and uncorrectable GPU ECC errors are parsed from nvidia-smi samples taken every poll_interval seconds. The run fails if bin/gpu_stress does not start or report GEMMs, or if mean utilization.gpu is below half of gpu_load_percent (minimum 10%). Peak temperature above temp_threshold, mean power above power_threshold, or a hardware thermal slowdown event with throttle_check true marks every sample error
+Validates that stress-ng and the cuBLAS GEMM load (bin/gpu_stress) both run for the yaml duration and that peak GPU temperature, sustained (mean) GPU power, and uncorrectable GPU ECC errors are parsed from nvidia-smi samples taken every poll_interval seconds. The run fails if bin/gpu_stress does not start or report GEMMs, or if mean utilization.gpu is below half of gpu_load_percent (minimum 10%). Peak temperature above temp_threshold, mean power above power_threshold, or a hardware thermal slowdown event marks every sample error
 
 ## Workload Category
 System Validation & Reliability

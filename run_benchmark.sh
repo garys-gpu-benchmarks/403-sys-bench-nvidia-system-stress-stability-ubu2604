@@ -51,8 +51,6 @@ Workload options:
   --temp-threshold <value>            Override temp_threshold
   --power-threshold <value>            Override power_threshold
   --duration <value>            Override duration
-  --throttle-check <value>            Override throttle_check
-  --ecc-check <value>            Override ecc_check
   --poll-interval <value>            Override poll_interval
 
 Information:
@@ -93,8 +91,6 @@ GPU_LOAD_PERCENT=""
 TEMP_THRESHOLD=""
 POWER_THRESHOLD=""
 DURATION=""
-THROTTLE_CHECK=""
-ECC_CHECK=""
 POLL_INTERVAL=""
 
 while [[ $# -gt 0 ]]; do
@@ -122,8 +118,6 @@ while [[ $# -gt 0 ]]; do
     --temp-threshold) TEMP_THRESHOLD="${2:-}"; shift 2 ;;
     --power-threshold) POWER_THRESHOLD="${2:-}"; shift 2 ;;
     --duration) DURATION="${2:-}"; shift 2 ;;
-    --throttle-check) THROTTLE_CHECK="${2:-}"; shift 2 ;;
-    --ecc-check) ECC_CHECK="${2:-}"; shift 2 ;;
     --poll-interval) POLL_INTERVAL="${2:-}"; shift 2 ;;
     --help|--specification|--matrix-definition) shift ;;
     *) die "Unknown option: $1" ;;
@@ -169,8 +163,6 @@ GPU_LOAD_PERCENT="${GPU_LOAD_PERCENT:-$(yaml_get gpu_load_percent)}"
 TEMP_THRESHOLD="${TEMP_THRESHOLD:-$(yaml_get temp_threshold)}"
 POWER_THRESHOLD="${POWER_THRESHOLD:-$(yaml_get power_threshold)}"
 DURATION="${DURATION:-$(yaml_get duration)}"
-THROTTLE_CHECK="${THROTTLE_CHECK:-$(yaml_get throttle_check)}"
-ECC_CHECK="${ECC_CHECK:-$(yaml_get ecc_check)}"
 POLL_INTERVAL="${POLL_INTERVAL:-$(yaml_get poll_interval)}"
 OUTPUT_FORMAT="${OUTPUT_FORMAT:-$(yaml_get output_format)}"
 OUTPUT_FORMAT="${OUTPUT_FORMAT:-csv}"
@@ -183,8 +175,6 @@ BENCHMARK_RUN_COMMAND="bash run_benchmark.sh --${PROFILE}"
 [[ -n "${TEMP_THRESHOLD}" ]] && BENCHMARK_RUN_COMMAND+=" --temp-threshold $(printf %q "${TEMP_THRESHOLD}")"
 [[ -n "${POWER_THRESHOLD}" ]] && BENCHMARK_RUN_COMMAND+=" --power-threshold $(printf %q "${POWER_THRESHOLD}")"
 [[ -n "${DURATION}" ]] && BENCHMARK_RUN_COMMAND+=" --duration $(printf %q "${DURATION}")"
-[[ -n "${THROTTLE_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --throttle-check $(printf %q "${THROTTLE_CHECK}")"
-[[ -n "${ECC_CHECK}" ]] && BENCHMARK_RUN_COMMAND+=" --ecc-check $(printf %q "${ECC_CHECK}")"
 [[ -n "${POLL_INTERVAL}" ]] && BENCHMARK_RUN_COMMAND+=" --poll-interval $(printf %q "${POLL_INTERVAL}")"
 set_benchmark_run_command "${BENCHMARK_RUN_COMMAND}"
 
@@ -234,8 +224,6 @@ run_collection() {
   grep -q -- '--temp-threshold' <<<"${help}" && collect_args+=(--temp-threshold "${TEMP_THRESHOLD}")
   grep -q -- '--power-threshold' <<<"${help}" && collect_args+=(--power-threshold "${POWER_THRESHOLD}")
   grep -q -- '--duration' <<<"${help}" && collect_args+=(--duration "${DURATION}")
-  grep -q -- '--throttle-check' <<<"${help}" && collect_args+=(--throttle-check "${THROTTLE_CHECK}")
-  grep -q -- '--ecc-check' <<<"${help}" && collect_args+=(--ecc-check "${ECC_CHECK}")
   grep -q -- '--poll-interval' <<<"${help}" && collect_args+=(--poll-interval "${POLL_INTERVAL}")
 
   printf -v collect_cmd '%q ' "${PYTHON_BIN}" scripts/collect_workload.py "${collect_args[@]}"

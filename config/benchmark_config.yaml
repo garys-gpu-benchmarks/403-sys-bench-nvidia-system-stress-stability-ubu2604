@@ -17,6 +17,4 @@ sweep:
     smoke: 5
     baseline: 200
     extended: 580
-  throttle_check: true
-  ecc_check: true
   poll_interval: 1
