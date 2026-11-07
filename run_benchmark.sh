@@ -16,12 +16,11 @@ capture_benchmark_run_command_submitted "$@"
 
 usage() {
   cat <<'USAGE'
+
 Usage: bash run_benchmark.sh [OPTIONS]
 
 Workload Name:          CPU + System Stress (Baseline Health).
 Main Goal:              Analyze GPU thermal and power behavior under combined CPU and GPU load.
-Validation Objective:   Validates temperature, power, and ECC sampled while stress-ng and cuBLAS
-                        GEMM are running.
 Command Tools Executed: Run stress-ng --cpu --cpu-load, bin/gpu_stress (cuBLAS GEMM), and nvidia-smi
                         --query-gpu.
 
