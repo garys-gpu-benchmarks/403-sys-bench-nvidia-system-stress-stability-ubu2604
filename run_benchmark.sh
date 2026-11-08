@@ -19,10 +19,10 @@ usage() {
 
 Usage: bash run_benchmark.sh [OPTIONS]
 
-Workload Name:          CPU + System Stress (Baseline Health).
-Main Goal:              Analyze GPU thermal and power behavior under combined CPU and GPU load.
+Workload Name:          CPU + System Stress (Baseline Health)
+Main Goal:              Analyze GPU thermal and power behavior under combined CPU and GPU load
 Command Tools Executed: Run stress-ng --cpu --cpu-load, bin/gpu_stress (cuBLAS GEMM), and nvidia-smi
-                        --query-gpu.
+                        --query-gpu
 
 Profiles (default: --smoke):
   --smoke                       Run smoke profile

@@ -202,17 +202,17 @@
   {
     "field_name": "GPU Model",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "H100 SXM 80GB"
-  },
-  {
-    "field_name": "Raw Output Format",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "CSV with one time-series row per elapsed second"
+    "value": "--"
   },
   {
     "field_name": "Primary Record Granularity",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "one CSV row per polling second during duration"
+  },
+  {
+    "field_name": "Raw Output Format",
+    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
+    "value": "CSV with one time-series row per elapsed second"
   },
   {
     "field_name": "Raw Output Example",
@@ -225,19 +225,19 @@
     "value": "gpu_util_pct, gpu_temp_c, gpu_power_w, ecc_uncorrected, peak_gpu_temperature_c, sustained_gpu_power_w, thermal_throttle_event_count, gpu_system_ecc_error_count"
   },
   {
-    "field_name": "Success Criteria",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "parser stores samples in SQLite and validation confirms configured thermal, power, throttle, and ECC limits"
-  },
-  {
     "field_name": "Parser and Normalization Notes",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "parser stores the normalized CSV metrics. peak_gpu_temperature_c is the maximum of nvidia-smi temperature.gpu (the GPU core sensor, not junction)"
   },
   {
+    "field_name": "Success Criteria",
+    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
+    "value": "parser stores samples in SQLite and validation confirms configured thermal, power, throttle, and ECC limits"
+  },
+  {
     "field_name": "Hardware Config",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "NVIDIA H100 SXM host (20+ vCPUs, 128+ GB RAM, local NVMe), 1x H100 SXM (80 GB HBM3, sm_90, 132 SMs)"
+    "value": "Cloud GPU host such as a RunPod Pod (20+ vCPUs, 128+ GB RAM, local NVMe), 1x NVIDIA data-center GPU (80+ GB HBM; model varies by provider)"
   },
   {
     "field_name": "GPU Architecture",
