@@ -40,6 +40,11 @@
     "value": "Run stress-ng --cpu --cpu-load, bin/gpu_stress (cuBLAS GEMM), and nvidia-smi --query-gpu"
   },
   {
+    "field_name": "Execution Description With Parameters",
+    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
+    "value": "Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together while polling nvidia-smi every poll_interval seconds. num_threads: stress-ng --cpu workers (default 16). cpu_load_percent: stress-ng --cpu-load. gpu_load_percent: share of each 100 ms window the GPU runs FP16 GEMMs (default 50). duration: seconds (smoke 5, baseline 200, extended 580). temp_threshold: limit that marks samples error; a hardware thermal slowdown event always does. power_threshold: maximum allowable GPU power draw in Watts (default 700 W). The uncorrectable ECC count is always collected"
+  },
+  {
     "field_name": "Metrics",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "#1: Peak GPU temperature (peak_gpu_temperature_c); #2: Sustained GPU power (sustained_gpu_power_w); #3: GPU ECC error count (gpu_system_ecc_error_count); #4: Thermal throttle events (thermal_throttle_event_count)"
@@ -173,11 +178,6 @@
     "field_name": "Command Methodology",
     "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
     "value": "Start bin/gpu_stress at yaml gpu_load_percent, an FP16 cuBLAS GEMM that is busy for that percent of each 100 ms window, then run stress-ng --cpu --cpu-load for yaml duration. Poll nvidia-smi temperature, power, utilization, thermal slowdown, and uncorrectable ECC on poll_interval. DCGM and sensors are not run"
-  },
-  {
-    "field_name": "Execution Description With Parameters",
-    "source_file": "BenchmarkSpecDefinitions.xlsx::Workload_Definitions",
-    "value": "Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together while polling nvidia-smi every poll_interval seconds. num_threads: stress-ng --cpu workers (default 16). cpu_load_percent: stress-ng --cpu-load. gpu_load_percent: share of each 100 ms window the GPU runs FP16 GEMMs (default 50). duration: seconds (smoke 5, baseline 200, extended 580). temp_threshold: limit that marks samples error; a hardware thermal slowdown event always does. power_threshold: maximum allowable GPU power draw in Watts (default 700 W). The uncorrectable ECC count is always collected"
   },
   {
     "field_name": "Execution Domain",
