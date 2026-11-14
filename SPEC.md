@@ -11,7 +11,7 @@ Runs stress-ng CPU workers and a cuBLAS GEMM GPU load (bin/gpu_stress) together 
 | num_threads | `--num-threads` | smoke=16, baseline=16, extended=16 | 16 | From Parameter list; see Execution Description With Parameters. |
 | cpu_load_percent | `--cpu-load-percent` | smoke=50, baseline=50, extended=50 | 50 | From Parameter list; see Execution Description With Parameters. |
 | gpu_load_percent | `--gpu-load-percent` | smoke=50, baseline=50, extended=50 | 50 | From Parameter list; see Execution Description With Parameters. |
-| temp_threshold | `--temp-threshold` | smoke=75, baseline=75, extended=75 | 75 | From Parameter list; see Execution Description With Parameters. |
+| temp_threshold | `--temp-threshold` | smoke=85, baseline=85, extended=85 | 85 | From Parameter list; see Execution Description With Parameters. |
 | power_threshold | `--power-threshold` | smoke=700, baseline=700, extended=700 | 700 | From Parameter list; see Execution Description With Parameters. |
 | duration | `--duration` | smoke=5, baseline=200, extended=580 | 200 | From Parameter list; see Execution Description With Parameters. |
 | poll_interval | `--poll-interval` | smoke=1, baseline=1, extended=1 | 1 | From Parameter list; see Execution Description With Parameters. |

@@ -25,7 +25,7 @@ bash run_benchmark.sh --smoke
 | `num_threads` | `--num-threads` | 16 | 16 | 16 |
 | `cpu_load_percent` | `--cpu-load-percent` | 50 | 50 | 50 |
 | `gpu_load_percent` | `--gpu-load-percent` | 50 | 50 | 50 |
-| `temp_threshold` | `--temp-threshold` | 75 | 75 | 75 |
+| `temp_threshold` | `--temp-threshold` | 85 | 85 | 85 |
 | `power_threshold` | `--power-threshold` | 700 | 700 | 700 |
 | `duration` | `--duration` | 5 | 200 | 580 |
 | `poll_interval` | `--poll-interval` | 1 | 1 | 1 |

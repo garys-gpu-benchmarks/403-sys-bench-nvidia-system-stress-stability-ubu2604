@@ -32,7 +32,7 @@ Parameters (override the profile's value):
   --num-threads <n>             Execution threads issuing work (smoke/baseline/extended: 16)
   --cpu-load-percent <value>    Shared workload parameter (smoke/baseline/extended: 50)
   --gpu-load-percent <value>    Shared workload parameter (smoke/baseline/extended: 50)
-  --temp-threshold <value>      Shared workload parameter (smoke/baseline/extended: 75)
+  --temp-threshold <value>      Shared workload parameter (smoke/baseline/extended: 85)
   --power-threshold <value>     Shared workload parameter (smoke/baseline/extended: 700)
   --duration <n>                Wall-clock or sampling duration
                                   smoke:    5
